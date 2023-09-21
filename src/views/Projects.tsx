@@ -14,7 +14,7 @@ import { projects } from "../data";
 import { motion } from "framer-motion";
 
 // utils
-import { fadeIn } from "../utils/variants";
+import { fadeIn, scale } from "../utils/variants";
 import { transition } from "../utils/transition";
 
 type Category = "uiUx" | "web";
@@ -32,7 +32,7 @@ const Projects = () => {
 
   return (
     <div
-      id="project"
+      id="projects"
       className="min-h-screen relative"
       style={{
         background: `url(${projectsPageImg})`,
@@ -43,11 +43,20 @@ const Projects = () => {
     >
       <div className="max-w-screen-2xl w-full py-16 px-12 mx-auto">
         <div className="flex-1 flex flex-col gap-4">
-          <h2 className="text-center xl:text-start text-4xl sm:text-5xl lg:text-[64px] font-bold text-textPrimary ">
-            My recent <span className="text-secondary">projects</span>
-          </h2>
+          <Reveal>
+            <h2 className="text-center xl:text-start text-4xl sm:text-5xl lg:text-[64px] font-bold text-textPrimary ">
+              My recent <span className="text-secondary">projects</span>
+            </h2>
+          </Reveal>
 
-          <div className="flex items-center gap-4 justify-center xl:justify-start flex-col sm:flex-row">
+          <motion.div
+            variants={fadeIn("up")}
+            transition={transition()}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+            className="flex items-center gap-4 justify-center xl:justify-start flex-col sm:flex-row"
+          >
             <Button
               secondary={activeCategory === "uiUx" ? true : false}
               onClick={() => setActiveCategory("uiUx")}
@@ -60,13 +69,20 @@ const Projects = () => {
             >
               Web Design
             </Button>
-          </div>
+          </motion.div>
 
-          <div className="flex gap-12 mt-12 flex-wrap justify-center">
+          <motion.div
+            variants={scale()}
+            transition={transition()}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: false }}
+            className="flex gap-12 mt-12 flex-wrap justify-center"
+          >
             {filterProjects().map((item) => (
               <Card imgSrc={item.img} title={item.title} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
       <div className="absolute bottom-0 left-0 w-full h-[1px] bg-divider" />
